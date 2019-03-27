@@ -6,10 +6,12 @@ verify_ssl = true
 [dev-packages]
 pep8 = "*"
 pylint = "*"
-black = "*"
 
 [packages]
 autopep8 = "*"
+django = "*"
+pipfile = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"
