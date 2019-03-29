@@ -9,9 +9,6 @@ from . import serializers
 
 
 class Welcome(APIView):
-    # Serializer class
-    serializer_class = serializers.TestSerializer
-
     def get(self, request, format=None):
         text = [
             "Welcome to Django rest framework",
@@ -19,20 +16,16 @@ class Welcome(APIView):
         ]
         return Response({"message": text})
 
+
+class Add(APIView):
+    # Serializer class
+    serializer_class = serializers.TestSerializer
+
     def post(self, request):
         serializer = serializers.TestSerializer(data=request.data)
-        if serializer.is_valid:
+        if serializer.is_valid():
             name = serializer.data.get("name")
-            message = f"Hello {name}"
+            email = serializer.data.get("email")
+            message = f"Hello {name}, we'll contact you at {email}"
             return Response({"message": message})
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-
-class ListAll(APIView):
-    def get(self, request, format=None):
-        text = {
-            "You have to prepare something",
-            "you have to cook something",
-            "you have to make dirnks",
-        }
-        return Response({"Info": text})
