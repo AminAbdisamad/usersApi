@@ -46,3 +46,20 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """ converts object to string  """
         return self.email
 
+
+class Feed(models.Model):
+    # user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class Speaker(models.Model):
+    # (id,firstname,lastname,photo,job_title,description,social_acount)
+    firstName = models.CharField(max_length=100)
+    lastName = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to="speaker_images", blank=True)
+    job_title = models.CharField(max_length=100)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
