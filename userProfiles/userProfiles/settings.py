@@ -103,6 +103,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "profilesAPi/media")
 
 # Changing Auth user Model to our custom model - asigning custom usr model
 AUTH_USER_MODEL = "profilesApi.UserProfile"
