@@ -2,25 +2,25 @@ from rest_framework import serializers
 from . import models
 
 
-class UserProfileSerializer(serializers.Serializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     #  We can define the fields we'll use with our serializer but instead we'll take advantage of
     #   UserProfile model that we have already created
     class Meta:
         """ We'll define What fields we'll take from our model """
 
-        models = models.UserProfile
+        model = models.UserProfile
         fields = ("id", "name", "email", "password")
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        return models.UserProfile.objects.create(**validated_data)
-        # """Create user  """
-        # user = models.UserProfile(
-        #     name=validated_data["name"], email=validated_data["email"]
-        # )
-        # user.set_password(validated_data["password"])
-        # user.save()
-        # return user
+        # return models.UserProfile.objects.create(**validated_data)
+        """Create user  """
+        user = models.UserProfile(
+            name=validated_data["name"], email=validated_data["email"]
+        )
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
 
 
 class FeedSerializer(serializers.Serializer):
@@ -57,3 +57,5 @@ class SessionSerializer(serializers.ModelSerializer):
             "speaker",
         )
 
+    # def create(self, validated_data):
+    #     return models.Session.objects.create(**validated_data)

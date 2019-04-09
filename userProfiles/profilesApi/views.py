@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.http import Http404
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 from . import serializers
 from . import models
 
@@ -30,8 +32,41 @@ class UserProfileView(APIView):
     #     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
+class UserProfileDetial(APIView):
+    serializer_class = serializers.UserProfileSerializer
+
+    def create_object(self, pk):
+        try:
+            return models.UserProfile.objects.get(pk=pk)
+        except models.UserProfile.DoesNotExist:
+            raise Http404
+
+    # getting one user
+    def get(self, request, pk):
+        userId = self.create_object(pk)
+        serializer = serializers.UserProfileSerializer(userId)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # updating a user
+    def put(self, request, pk):
+        userId = self.create_object(pk)
+        serializer = serializers.UserProfileSerializer(userId, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Deleting a user
+    def delete(self, request, pk):
+        useId = self.get_object(pk)
+        useId.delete()
+        return Response(
+            {"Message": "Deleted Sucessfully"}, status=status.HTTP_204_NO_CONTENT
+        )
+
+
 class FeedView(APIView):
-    # serializer_class = serializers.FeedSerializer
+
     serializer_class = serializers.FeedSerializer
 
     def get(self, request, format=None):
@@ -86,7 +121,7 @@ class SessionDetail(APIView):
         try:
             return models.Session.objects.get(pk=pk)
         except models.Session.DoesNotExist:
-            raise (status.HTTP_404_NOT_FOUND)
+            raise Http404
 
     # Getting one session
     def get(self, request, _id):

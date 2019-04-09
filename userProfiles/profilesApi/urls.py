@@ -9,9 +9,8 @@ from . import views
 # # router.register(r"profile", views.UserProfileViewSet, base_name="profiles")
 
 urlpatterns = [
-    # path("", include(router.urls)),
-    # path("api/", views.Welcome.as_view()),
-    path("api/", views.UserProfileView.as_view()),
+    path("api/users", views.UserProfileView.as_view()),
+    path("api/user/<int:pk>/", views.UserProfileDetial.as_view()),
     path("api/feed", views.FeedView.as_view()),
     path("api/speaker", views.SpeakerView.as_view()),
     path("api/session", views.Session.as_view()),
