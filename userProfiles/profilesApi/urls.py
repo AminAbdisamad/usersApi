@@ -14,5 +14,7 @@ urlpatterns = [
     path("api/", views.UserProfileView.as_view()),
     path("api/feed", views.FeedView.as_view()),
     path("api/speaker", views.SpeakerView.as_view()),
+    path("api/session", views.Session.as_view()),
+    path("api/session/<int:_id>/", views.SessionDetail.as_view()),
 ]
 

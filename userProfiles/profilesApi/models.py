@@ -63,3 +63,15 @@ class Speaker(models.Model):
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
+
+class Session(models.Model):
+    # schema(id, name, description, time, location,speaker_id(fr))
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    startTime = models.DateTimeField()
+    endTime = models.DateTimeField()
+    location = models.CharField(max_length=200)
+    speaker = models.ForeignKey(Speaker, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

@@ -33,13 +33,27 @@ class FeedSerializer(serializers.Serializer):
 
 
 class SpeakerSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     firstName = serializers.CharField(max_length=100)
     lastName = serializers.CharField(max_length=100)
-    photo = serializers.ImageField(upload_to="speaker_images", blank=True)
+    photo = serializers.ImageField()
     job_title = serializers.CharField(max_length=100)
     description = serializers.CharField()
-    created = models.DateTimeField(auto_now_add=True)
 
     def create(self, validated_data):
         return models.Speaker.objects.create(**validated_data)
+
+
+class SessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Session
+        fields = (
+            "id",
+            "name",
+            "description",
+            "startTime",
+            "endTime",
+            "location",
+            "speaker",
+        )
 
