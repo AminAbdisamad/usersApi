@@ -63,6 +63,9 @@ class Speaker(models.Model):
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.firstName} {self.lastName}"
+
 
 class Session(models.Model):
     # schema(id, name, description, time, location,speaker_id(fr))

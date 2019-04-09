@@ -12,15 +12,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "email", "password")
         extra_kwargs = {"password": {"write_only": True}}
 
-    def create(self, validated_data):
-        # return models.UserProfile.objects.create(**validated_data)
-        """Create user  """
-        user = models.UserProfile(
-            name=validated_data["name"], email=validated_data["email"]
-        )
-        user.set_password(validated_data["password"])
-        user.save()
-        return user
+    # def create(self, validated_data):
+    #     return models.UserProfile.objects.create(**validated_data)
+    # """Create user  """
+    # user = models.UserProfile(
+    #     name=validated_data["name"], email=validated_data["email"]
+    # )
+    # user.set_password(validated_data["password"])
+    # user.save()
+    # return user
 
 
 class FeedSerializer(serializers.Serializer):
