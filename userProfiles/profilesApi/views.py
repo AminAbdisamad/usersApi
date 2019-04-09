@@ -1,18 +1,36 @@
 from django.shortcuts import render
 from django.http import Http404
+
+
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
+
+# Login Api viewset
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from . import serializers
 from . import models
+from .permissions import UpdateOwnProfile
 
 
 class UserProfileView(APIView):
     # Serializer class
     serializer_class = serializers.UserProfileSerializer
+    # we're adding permission and authentication classes, the (,) after authentication is for creating tuple
+    # tuple is list that's immutable
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ("name", "email")
 
+    # getting user profiles
     def get(self, request, format=None):
+        get_data = request.query_params  # or request.GET check both
+        # Rental.objects.filter(city=get_data['city'], place=get_data['place'])
         query = models.UserProfile.objects.all()
         serializer = serializers.UserProfileSerializer(query, many=True)
         return Response(serializer.data)
@@ -32,8 +50,21 @@ class UserProfileView(APIView):
     #     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
+# Login with email and password
+class LoginViewSet(viewsets.ViewSet):
+    """ Checks Email and password & returns an auth-token"""
+
+    serializer_class = AuthTokenSerializer
+
+    def create(self, request):
+
+        return ObtainAuthToken().post(request)
+
+
 class UserProfileDetial(APIView):
     serializer_class = serializers.UserProfileSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (UpdateOwnProfile,)
 
     def create_object(self, pk):
         try:
