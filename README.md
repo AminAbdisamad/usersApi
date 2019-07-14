@@ -16,5 +16,6 @@ create super user
 ```python
 python manage.py createsuperuser
 
-
 ```
+
+We have installed **pillow** for working with files and images `pipenv install pillow`

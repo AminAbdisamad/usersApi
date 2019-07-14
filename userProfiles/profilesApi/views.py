@@ -117,20 +117,23 @@ class FeedView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SpeakerView(APIView):
+# class SpeakerView(APIView):
+#     serializer_class = serializers.SpeakerSerializer
+
+#     def get(self, request):
+#         query = models.Speaker.objects.all()
+#         serializer = serializers.SpeakerSerializer(query, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         serializer = serializers.SpeakerSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SpeakerViewSet(viewsets.ModelViewSet):
+    queryset = models.Speaker.objects.all()
     serializer_class = serializers.SpeakerSerializer
-
-    def get(self, request):
-        query = models.Speaker.objects.all()
-        serializer = serializers.SpeakerSerializer(query, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = serializers.SpeakerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Session(APIView):

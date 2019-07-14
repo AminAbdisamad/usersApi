@@ -104,7 +104,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "profilesAPi/media")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "profilesAPi/media")
 
 # Changing Auth user Model to our custom model - asigning custom usr model
 AUTH_USER_MODEL = "profilesApi.UserProfile"

@@ -32,16 +32,28 @@ class FeedSerializer(serializers.Serializer):
         return models.Feed.objects.create(**validated_data)
 
 
-class SpeakerSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    firstName = serializers.CharField(max_length=100)
-    lastName = serializers.CharField(max_length=100)
-    photo = serializers.ImageField()
-    job_title = serializers.CharField(max_length=100)
-    description = serializers.CharField()
+class SpeakerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Speaker
+        fields = (
+            "id",
+            "firstName",
+            "lastName",
+            "photo",
+            "job_title",
+            "description",
+            "created",
+        )
 
-    def create(self, validated_data):
-        return models.Speaker.objects.create(**validated_data)
+    # id = serializers.IntegerField(read_only=True)
+    # firstName = serializers.CharField(max_length=100)
+    # lastName = serializers.CharField(max_length=100)
+    # photo = serializers.ImageField()
+    # job_title = serializers.CharField(max_length=100)
+    # description = serializers.CharField()
+
+    # def create(self, validated_data):
+    #     return models.Speaker.objects.create(**validated_data)
 
 
 class SessionSerializer(serializers.ModelSerializer):
